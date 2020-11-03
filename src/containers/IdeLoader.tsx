@@ -38,7 +38,7 @@ type State = {
 
 class IdeLoader extends React.PureComponent<Props, State> {
   private readonly loadFactoryPageCallbacks: {
-    showAlert?: (variant: AlertVariant.success | AlertVariant.danger, title: string) => void
+    showAlert?: (variant: AlertVariant, title: string) => void
   };
 
   constructor(props: Props) {

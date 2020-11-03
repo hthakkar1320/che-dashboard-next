@@ -31,7 +31,7 @@ import LogsTab from '../../components/LogsTab';
 import styles from '../../components/WorkspaceStatusLabel/WorkspaceStatusLabel.module.css';
 import './index.styl';
 
-export const SECTION_THEME = PageSectionVariants.light;
+const SECTION_THEME = PageSectionVariants.light;
 
 export enum LoadFactoryTabs {
   Progress = 0,
@@ -45,7 +45,7 @@ type Props = {
   workspaceId: string;
   devfileLocationInfo?: string;
   callbacks?: {
-    showAlert?: (variant: AlertVariant.success | AlertVariant.danger, title: string) => void
+    showAlert?: (variant: AlertVariant, title: string) => void
   }
 };
 
@@ -56,9 +56,9 @@ type State = {
   currentRequestError?: string;
 };
 
-class loadFactory extends React.PureComponent<Props, State> {
-  private alert: { variant?: AlertVariant.success | AlertVariant.danger; title?: string } = {};
-  public showAlert: (variant: AlertVariant.success | AlertVariant.danger, title: string, timeDelay?: number) => void;
+class FactoryLoader extends React.PureComponent<Props, State> {
+  private alert: { variant?: AlertVariant; title?: string } = {};
+  public showAlert: (variant: AlertVariant, title: string, timeDelay?: number) => void;
   private readonly hideAlert: () => void;
   private readonly handleTabClick: (event: any, tabIndex: any) => void;
 
@@ -85,7 +85,7 @@ class loadFactory extends React.PureComponent<Props, State> {
     };
     // Init showAlert
     let showAlertTimer;
-    this.showAlert = (variant: AlertVariant.success | AlertVariant.danger, title: string): void => {
+    this.showAlert = (variant: AlertVariant, title: string): void => {
       this.setState({ currentRequestError: title });
       if (this.state.activeTabKey === LoadFactoryTabs.Progress) {
         return;
@@ -102,7 +102,7 @@ class loadFactory extends React.PureComponent<Props, State> {
     this.hideAlert = (): void => this.setState({ alertVisible: false });
     // Prepare showAlert as a callback
     if (this.props.callbacks && !this.props.callbacks.showAlert) {
-      this.props.callbacks.showAlert = (variant: AlertVariant.success | AlertVariant.danger, title: string) => {
+      this.props.callbacks.showAlert = (variant: AlertVariant, title: string) => {
         this.showAlert(variant, title);
       };
     }
@@ -237,4 +237,4 @@ class loadFactory extends React.PureComponent<Props, State> {
   }
 }
 
-export default loadFactory;
+export default FactoryLoader;

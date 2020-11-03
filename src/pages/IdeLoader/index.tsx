@@ -42,7 +42,7 @@ type Props = {
   workspaceId: string;
   ideUrl?: string;
   callbacks?: {
-    showAlert?: (variant: AlertVariant.success | AlertVariant.danger, title: string) => void
+    showAlert?: (variant: AlertVariant, title: string) => void
   }
 };
 
@@ -54,8 +54,8 @@ type State = {
 };
 
 class IdeLoader extends React.PureComponent<Props, State> {
-  private alert: { variant?: AlertVariant.success | AlertVariant.danger; title?: string } = {};
-  public showAlert: (variant: AlertVariant.success | AlertVariant.danger, title: string, timeDelay?: number) => void;
+  private alert: { variant?: AlertVariant; title?: string } = {};
+  public showAlert: (variant: AlertVariant, title: string, timeDelay?: number) => void;
   private readonly hideAlert: () => void;
   private readonly handleTabClick: (event: any, tabIndex: any) => void;
 
@@ -82,7 +82,7 @@ class IdeLoader extends React.PureComponent<Props, State> {
     };
     // Init showAlert
     let showAlertTimer;
-    this.showAlert = (variant: AlertVariant.success | AlertVariant.danger, title: string): void => {
+    this.showAlert = (variant: AlertVariant, title: string): void => {
       this.setState({ currentRequestError: title });
       if (this.state.activeTabKey === IdeLoaderTabs.Progress) {
         return;
@@ -99,7 +99,7 @@ class IdeLoader extends React.PureComponent<Props, State> {
     this.hideAlert = (): void => this.setState({ alertVisible: false });
     // Prepare showAlert as a callback
     if (this.props.callbacks && !this.props.callbacks.showAlert) {
-      this.props.callbacks.showAlert = (variant: AlertVariant.success | AlertVariant.danger, title: string) => {
+      this.props.callbacks.showAlert = (variant: AlertVariant, title: string) => {
         this.showAlert(variant, title);
       };
     }
@@ -147,7 +147,7 @@ class IdeLoader extends React.PureComponent<Props, State> {
       {
         id: 2,
         name: (<React.Fragment>
-          {this.getIcon(2)}Waiting for workspace to start
+          {this.getIcon(2)}Waiting for workspace {workspaceName} to start
         </React.Fragment>),
         canJumpTo: currentStep >= 2,
       },
@@ -172,11 +172,11 @@ class IdeLoader extends React.PureComponent<Props, State> {
     const { alertVisible } = this.state;
 
     if (ideUrl) {
-      const randVal = Math.floor((Math.random() * 1000000) + 1);
       return (
         <div style={{ height: '100%' }}>
-          <iframe className='ide-page-frame' src={`${ideUrl}?uid=${randVal}`} />
-        </div>);
+          <iframe className='ide-page-frame' src={ideUrl} />
+        </div>
+      );
     }
 
     return (

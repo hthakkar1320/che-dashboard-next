@@ -11,11 +11,12 @@
  */
 
 import React from 'react';
-import { PageSection, Text, TextContent } from '@patternfly/react-core';
-import { SECTION_THEME } from '../../pages/loadFactory';
+import { PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
 import WorkspaceStatusLabel from '../WorkspaceStatusLabel/WorkspaceStatusLabel';
 
-import styles from './Header.module.css';
+import styles from './index.module.css';
+
+const SECTION_THEME = PageSectionVariants.light;
 
 type Props = {
   status: string | undefined;

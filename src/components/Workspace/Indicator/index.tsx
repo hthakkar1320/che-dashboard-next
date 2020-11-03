@@ -49,7 +49,7 @@ class WorkspaceIndicator extends React.PureComponent<Props> {
         color = 'blue';
         return (
           <span className={styles.statusIndicator}>
-            <InProgressIcon className={styles.rotate} color="#0e6fe0" />
+            <InProgressIcon className={styles.rotate} color={color} />
           </span>
         );
     }

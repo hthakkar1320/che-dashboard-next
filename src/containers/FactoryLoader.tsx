@@ -18,7 +18,7 @@ import { timeout } from '../services/timeout';
 import { AppState } from '../store';
 import * as FactoryResolverStore from '../store/FactoryResolver';
 import * as WorkspaceStore from '../store/Workspaces';
-import LoadFactoryPage from '../pages/loadFactory';
+import FactoryLoaderPage from '../pages/FactoryLoader';
 import { selectAllWorkspaces, selectWorkspaceById } from '../store/Workspaces/selectors';
 import { WorkspaceStatus } from '../services/workspaceStatus';
 
@@ -36,8 +36,8 @@ type State = {
   hasError: boolean;
 };
 
-export class LoadFactory extends React.PureComponent<Props, State> {
-  private loadFactoryPageCallbacks: { showAlert?: (variant: AlertVariant.success | AlertVariant.danger, title: string) => void } = {};
+export class FactoryLoader extends React.PureComponent<Props, State> {
+  private loadFactoryPageCallbacks: { showAlert?: (variant: AlertVariant, title: string) => void } = {};
   private factoryResolver: FactoryResolverStore.State;
 
   constructor(props: Props) {
@@ -175,7 +175,7 @@ export class LoadFactory extends React.PureComponent<Props, State> {
     const workspaceId = workspace ? workspace.id : '';
 
     return (
-      <LoadFactoryPage
+      <FactoryLoaderPage
         currentStep={currentStep}
         hasError={hasError}
         devfileLocationInfo={devfileLocationInfo}
@@ -203,4 +203,4 @@ const connector = connect(
 );
 
 type MappedProps = ConnectedProps<typeof connector>;
-export default connector(LoadFactory);
+export default connector(FactoryLoader);
